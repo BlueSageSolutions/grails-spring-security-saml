@@ -33,12 +33,12 @@ class SamlTagLib extends SecurityTagLib {
      */
     def loginLink = { attrs, body ->
         def contextPath = request.contextPath
-        def url = Holders.grailsApplication.config.grails.plugin.springsecurity.auth.loginFormUrl
+        def url = Holders.grailsApplication.config.gProperty('grails.plugin.springsecurity.auth.loginFormUrl')
         def selectIdp = attrs.remove('selectIdp')
 
         url = "${contextPath}${url}"
         if (!selectIdp) {
-            def defaultIdp = Holders.grailsApplication.config.grails.plugin.springsecurity.saml.metadata.defaultIdp
+            def defaultIdp = Holders.grailsApplication.config.getProperty('grails.plugin.springsecurity.saml.metadata.defaultIdp')
             url += "?idp=${defaultIdp}"
         }
 
@@ -57,7 +57,7 @@ class SamlTagLib extends SecurityTagLib {
 
         def url = LOGOUT_SLUG
 
-        def samlEnabled = Holders.grailsApplication.config.grails.plugin.springsecurity.saml.active
+        def samlEnabled = Holders.grailsApplication.config.gProperty('grails.plugin.springsecurity.saml.active')
         if(samlEnabled){
             url = SAMLLogoutFilter.FILTER_URL
         }
